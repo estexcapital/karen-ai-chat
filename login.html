@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Karen-Ai - Login</title>
+  <link rel="icon" href="image/20250215_162348-removebg-preview 1 (1).png" type="image/png" />
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Krub:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: rgba(27,25,25,0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .login-container {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      width: 300px;
+      text-align: center;
+      color: white;
+    }
+    .login-container h2 {
+      margin-bottom: 20px;
+      font-family: "Krub", serif;
+    }
+    .login-container form {
+      display: flex;
+      flex-direction: column;
+    }
+    .login-container input,
+    .login-container input[type="file"] {
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .login-container button {
+      padding: 10px;
+      background: linear-gradient(to right, #1C5174, #39A2E9);
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .toggle-link {
+      font-size: 13px;
+    }
+    .toggle-link a {
+      color: #00DF58;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    /* Style preview foto profil */
+    #profile-preview {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px dashed #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #ccc;
+      margin: 0 auto 10px auto;
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+    }
+    /* Style keterangan kecil di bawah preview */
+    #profile-note {
+      font-size: 12px;
+      color: #ccc;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <!-- Preview foto profil berbentuk lingkaran -->
+    <div id="profile-preview" onclick="document.getElementById('login-profile-photo').click();">
+      Add Profile
+    </div>
+    <!-- Keterangan di bawah preview -->
+    <p id="profile-note">Foto profil bisa diubah di halaman chat</p>
+    <form id="login-form">
+      <input type="text" id="login-username" placeholder="Username" required />
+      <input type="password" id="login-password" placeholder="Password" required />
+      <!-- Input file untuk upload foto profil (tersimpan secara tersembunyi) -->
+      <input type="file" id="login-profile-photo" accept="image/*" style="display: none;">
+      <button type="submit">Login</button>
+    </form>
+    <p class="toggle-link">Belum punya akun? <a href="register.html">Daftar dulu</a></p>
+  </div>
+
+  <script>
+    // Tampilkan preview foto profil saat file dipilih
+    document.getElementById('login-profile-photo').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const preview = document.getElementById('profile-preview');
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.style.backgroundImage = `url(${e.target.result})`;
+          preview.textContent = ''; // Hapus teks "Add Profile"
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.style.backgroundImage = 'none';
+        preview.textContent = 'Add Profile';
+      }
+    });
+
+    // Fungsi untuk menyelesaikan login dan mengarahkan ke chat
+    function proceedLogin() {
+      // Generate session ID acak dan simpan
+      const sessionId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('sessionId', sessionId);
+      localStorage.setItem('loggedIn', 'true');
+      // Pastikan username disimpan agar fungsi getCurrentUsername() mengembalikannya
+      const username = document.getElementById('login-username').value.trim();
+      localStorage.setItem('username', username);
+      window.location.href = 'core/ai.html';
+    }
+
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+      const storedUsername = localStorage.getItem('username');
+      const storedPassword = localStorage.getItem('password');
+
+      // Validasi login (sesuaikan logika validasi sesuai kebutuhan)
+      if (username === storedUsername && password === storedPassword) {
+        const profilePhotoInput = document.getElementById('login-profile-photo');
+        // Jika ada file foto yang diupload, baca sebagai data URL dan simpan
+        if (profilePhotoInput.files && profilePhotoInput.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const dataURL = e.target.result;
+            localStorage.setItem('profileImage', dataURL);
+            proceedLogin();
+          };
+          reader.readAsDataURL(profilePhotoInput.files[0]);
+        } else {
+          // Jika tidak diupload, hapus key foto (atau simpan default jika diperlukan)
+          localStorage.removeItem('profileImage');
+          proceedLogin();
+        }
+      } else {
+        alert('Username atau password salah');
+      }
+    });
+  </script>
+</body>
+</html>
