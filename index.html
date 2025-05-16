@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karen-Ai</title>
+  <link rel="icon" href="image/20250215_162348-removebg-preview 1 (1).png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Krub:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <img style="width: 25px;" src="image/20250215_162348-removebg-preview 1 (1).png" alt="">
+      <h1>Karen<span class="gradient">-Ai</span></h1>
+    </div>
+    <div class="nav-links">
+      <a href="#tabel">Versi K-2.0.2</a>
+    </div>
+  </nav>
+  <section class="hero">
+      <p align="center">
+          Sebuah Ai (Artificial Intelligence) yang diciptakan oleh mr.EFG dari perusahaan software yaitu estexcapital. Karen dibekali teknologi terbaru yang tidak kalah gesit dari Ai besar lainnya.
+          Ini adalah versi publik, bukan full version yang mana Karen hanya bisa menerima teks, tidak termasuk media atau file. Tapi boleh lah dicobain :)
+      </p>
+    </div>
+    <div class="btn">
+      <!-- Tombol Start Now, dengan id="start" -->
+      <a href="core/ai.html" class="start-btn" id="start">
+        <div>
+          <p class="start-now">Coba Sekarang »</p>
+          <p class="start-free">
+            Akses gratis ke <span class="krub">Karen<span class="gradient">-Ai</span></span> v2.0.2 <br>
+            Curhat dengan robot 24 jam nonstop!
+          </p>
+        </div>
+      </a>
+  </section>
+  <footer>
+    <p>© 2025 estexcapital. All rights reserved</p>
+  </footer>
+  
+  <!-- Script untuk pengecekan status login -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const startBtn = document.getElementById("start");
+      startBtn.addEventListener("click", function(e) {
+        e.preventDefault();
+        // Cek apakah user sudah login (misalnya nilai 'loggedIn' di localStorage)
+        if(localStorage.getItem("loggedIn") === "true") {
+          window.location.href = this.href;
+        } else {
+          window.location.href = "login.html";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
